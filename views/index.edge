@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title> {{ title }} </title>
+        <link rel="stylesheet" type="text/css" href="static/style.css">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+
+        <header>
+            <span class="logo" >ChatSocket</span>
+        </header>
+
+        <div id="onlines"></div>
+        <div id="message-container" class="message-container">
+
+        </div>
+        <form id="chat-form" class="message-form">
+            <div class="col-s9">
+                <input type="text" name="message-input" placeholder="Digite sua mensagem..." autocomplete="off" autofocus/>
+            </div>
+            <div class="col-s3">
+                <input type="submit" name="send" value="Enviar mensagem" />
+            </div>
+        </form>
+    </body>
+    <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        var name = "";
+        $(document).ready(() => {
+            name = prompt("Informe seu nome: ")
+            if (name == null) {
+                location.reload();
+            }
+            $("#onlines").append('0 users online');
+        })
+        var socket = io();
+
+        function scrollContainer () {
+            $('#message-container').animate({ scrollTop: $(document).height() }, 1000);
+        }
+
+        function renderMessage (data) {
+            $("#message-container").append('<div class="message"><b>'+data.user+'</b>: '+ data.message +'</div>')
+        }
+
+        socket.on("change-online", (quantity) => {
+            $("#onlines").html(quantity+' users online');
+        })
+
+
+        $("#chat-form").on('submit', (target, event) =>{
+            target.preventDefault();
+            
+            let input = $("#chat-form input[name=message-input]");
+            if (!!input.val()){
+
+                const message = {message: input.val(), user: name};
+                input.val('')
+
+                
+
+                socket.emit('sending-message', message)
+                renderMessage(message);
+                input.focus();
+                scrollContainer();
+            }
+        })
+
+        socket.on('recived-message', message => {
+            renderMessage(message);
+            scrollContainer();
+        } );
+
+        socket.on('previous-messages', (messages) => {
+            messages.forEach(message => renderMessage(message));
+            scrollContainer();
+        })
+    </script>
+</html>

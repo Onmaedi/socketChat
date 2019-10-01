@@ -1,0 +1,47 @@
+Arguments: 
+  /usr/bin/node /usr/share/yarn/bin/yarn.js add edge
+
+PATH: 
+  /home/bread/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/home/user_directory/Android/Sdk/tools:/home/user_directory/Android/Sdk/platform-tools:/home/user_directory/Android/Sdk/tools:/home/user_directory/Android/Sdk/platform-tools
+
+Yarn version: 
+  1.19.0
+
+Node version: 
+  12.10.0
+
+Platform: 
+  linux x64
+
+Trace: 
+  Error: read ECONNRESET
+      at TLSWrap.onStreamRead (internal/stream_base_commons.js:201:27)
+
+npm manifest: 
+  {
+    "name": "nodechat",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+      "test": "echo \"Error: no test specified\" && exit 1",
+      "start": "nodemon index.js"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "dependencies": {
+      "express": "^4.17.1",
+      "pug": "^2.0.4",
+      "socket.io": "^2.3.0"
+    },
+    "devDependencies": {
+      "nodemon": "^1.19.3"
+    }
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile
